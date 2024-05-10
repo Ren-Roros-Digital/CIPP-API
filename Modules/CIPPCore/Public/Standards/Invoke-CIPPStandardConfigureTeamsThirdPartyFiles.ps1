@@ -14,8 +14,8 @@ function Invoke-CIPPStandardConfigureTeamsThirdPartyFiles {
                       $CurrentSetting.AllowGoogleDrive -eq $Settings.AllowGoogleDrive -and
                       $CurrentSetting.AllowEgnyte -eq $Settings.AllowEgnyte
 
-    if ($Settings.remediate) {
-        if ($StateIsCorrect) {
+    if ($Settings.remediate -eq $True) {
+        if ($StateIsCorrect -eq $True) {
             Write-LogMessage -API 'Standards' -Tenant $tenant -message 'Microsoft Teams Third Party Files are already configured.' -sev Info
         } else {
             Write-LogMessage -API 'Standards' -Tenant $tenant -message 'Remediating Microsoft Teams Third Party Files.' -sev Info
@@ -34,13 +34,14 @@ function Invoke-CIPPStandardConfigureTeamsThirdPartyFiles {
                     Body      = $body
                 }
                 New-TeamsAPIPOSTRequest @params
+                Write-LogMessage -API 'Standards' -Tenant $tenant -message 'Successfully set Microsoft Teams Third Party Files settings.' -sev Info
             } catch {
                 Write-LogMessage -API 'Standards' -Tenant $tenant -message "Failed to set Microsoft Teams Third Party Files settings. Error: $($_.exception.message)" -sev Error
             }
         }
     }
 
-    if ($Settings.alert) {
+    if ($Settings.alert -eq $True) {
         if ($StateIsCorrect) {
             Write-LogMessage -API 'Standards' -Tenant $tenant -message 'Microsoft Teams Third Party Files are configured.' -sev Info
         } else {
@@ -48,7 +49,7 @@ function Invoke-CIPPStandardConfigureTeamsThirdPartyFiles {
         }
     }
 
-    if ($Settings.report) {
+    if ($Settings.report -eq $True) {
         Add-CIPPBPAField -FieldName 'TeamsThirdPartyFiles' -FieldValue [bool]$StateIsCorrect -StoreAs bool -Tenant $tenant
     }
 }
