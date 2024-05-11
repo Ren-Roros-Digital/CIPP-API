@@ -26,32 +26,32 @@ Function Invoke-AddRoom {
             ContentType = 'application/json'
             Body = ConvertTo-Json @{
                 #"@odata.type"           = 'microsoft.graph.room'
-                emailAddress            = $RequestBody.emailAddress
+                #emailAddress            = $RequestBody.emailAddress
                 displayName             = $RequestBody.displayName
-                geoCoordinates          = $RequestBody.geoCoordinates
-                phone                   = $RequestBody.phone
-                placeId                 = $RequestBody.placeId
+                #geoCoordinates          = $RequestBody.geoCoordinates
+                #phone                   = $RequestBody.phone
+                #placeId                 = $RequestBody.placeId
                 nickname                = $RequestBody.nickname
-                building                = $RequestBody.building
-                floorNumber             = $RequestBody.floorNumber
-                floorLabel              = $RequestBody.floorLabel
-                label                   = $RequestBody.label
+                #building                = $RequestBody.building
+                #floorNumber             = $RequestBody.floorNumber
+                #floorLabel              = $RequestBody.floorLabel
+                #label                   = $RequestBody.label
                 capacity                = $RequestBody.capacity
-                bookingType             = $RequestBody.bookingType
-                audioDeviceName         = $RequestBody.audioDeviceName
-                videoDeviceName         = $RequestBody.videoDeviceName
-                displayDeviceName       = $RequestBody.displayDeviceName
-                isWheelChairAccessible  = [bool]$RequestBody.isWheelChairAccessible
-                tags                    = [string[]]$RequestBody.tags
-                address = @{
-                    type                = $RequestBody.address.type
-                    postOfficeBox       = $RequestBody.address.postOfficeBox
-                    street              = $RequestBody.address.street
-                    city                = $RequestBody.address.city
-                    state               = $RequestBody.address.state
-                    countryOrRegion     = $RequestBody.address.countryOrRegion
-                    postalCode          = $RequestBody.address.postalCode
-                }
+                #bookingType             = $RequestBody.bookingType
+                #audioDeviceName         = $RequestBody.audioDeviceName
+                #videoDeviceName         = $RequestBody.videoDeviceName
+                #displayDeviceName       = $RequestBody.displayDeviceName
+                #isWheelChairAccessible  = [bool]$RequestBody.isWheelChairAccessible
+                #tags                    = [string[]]$RequestBody.tags
+                #address = @{
+                #    type                = $RequestBody.address.type
+                #    postOfficeBox       = $RequestBody.address.postOfficeBox
+                #    street              = $RequestBody.address.street
+                #    city                = $RequestBody.address.city
+                #    state               = $RequestBody.address.state
+                #    countryOrRegion     = $RequestBody.address.countryOrRegion
+                #    postalCode          = $RequestBody.address.postalCode
+                #}
             }
         }
         $GraphRequest = New-GraphPostRequest @params
