@@ -22,7 +22,7 @@ Function Invoke-AddRoom {
             tenantid = $RequestBody.tenantid
             uri = 'https://graph.microsoft.com/beta/places/microsoft.graph.room'
             AsApp = $true
-            Type = 'PATCH'
+            Type = 'POST'
             ContentType = 'application/json'
             Body = ConvertTo-Json @{
                 #"@odata.type"           = 'microsoft.graph.room'
