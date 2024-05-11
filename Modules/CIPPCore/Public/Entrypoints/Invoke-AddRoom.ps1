@@ -24,7 +24,7 @@ Function Invoke-AddRoom {
             AsApp = $true
             Type = 'POST'
             ContentType = 'application/json'
-            Body = "{`"displayName`": `"$($RequestBody.displayName)`", `"capacity`": $($RequestBody.capacity)}"
+            Body = "{`"displayName`": `"$($RequestBody.displayName)`"}"
             #Body = ConvertTo-Json @{
                 #"@odata.type"           = 'microsoft.graph.room'
                 #emailAddress            = $RequestBody.emailAddress
