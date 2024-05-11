@@ -25,7 +25,7 @@ Function Invoke-AddRoom {
             Type = 'PATCH'
             ContentType = 'application/json'
             Body = ConvertTo-Json @{
-                "@odata.type"           = 'microsoft.graph.room'
+                #"@odata.type"           = 'microsoft.graph.room'
                 emailAddress            = $RequestBody.emailAddress
                 displayName             = $RequestBody.displayName
                 geoCoordinates          = $RequestBody.geoCoordinates
