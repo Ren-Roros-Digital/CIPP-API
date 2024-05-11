@@ -36,7 +36,7 @@ Function Invoke-EditRoom {
         $params = @{
             tenantid = $RequestBody.tenantid
             uri = "https://graph.microsoft.com/beta/places/$($RequestBody.id)"
-            AsApp = $true
+            AsApp = $false
             Type = 'PATCH'
             ContentType = 'application/json'
             Body = $Body | ConvertTo-Json -Compress
