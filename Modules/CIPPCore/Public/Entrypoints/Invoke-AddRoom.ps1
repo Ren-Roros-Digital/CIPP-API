@@ -1,6 +1,6 @@
 using namespace System.Net
 
-Function Invoke-NewRoom {
+Function Invoke-AddRoom {
     <#
     .FUNCTIONALITY
     Entrypoint
