@@ -24,19 +24,20 @@ Function Invoke-AddRoom {
             AsApp = $true
             Type = 'POST'
             ContentType = 'application/json'
-            Body = ConvertTo-Json @{
+            $Body = "{`"displayName`": `"$($RequestBody.displayName)`", `"capacity`": $($RequestBody.capacity)}"
+            #Body = ConvertTo-Json @{
                 #"@odata.type"           = 'microsoft.graph.room'
                 #emailAddress            = $RequestBody.emailAddress
-                displayName             = $RequestBody.displayName
+                #displayName             = $RequestBody.displayName
                 #geoCoordinates          = $RequestBody.geoCoordinates
                 #phone                   = $RequestBody.phone
                 #placeId                 = $RequestBody.placeId
-                nickname                = $RequestBody.nickname
+                #nickname                = $RequestBody.nickname
                 #building                = $RequestBody.building
                 #floorNumber             = $RequestBody.floorNumber
                 #floorLabel              = $RequestBody.floorLabel
                 #label                   = $RequestBody.label
-                capacity                = $RequestBody.capacity
+                #capacity                = $RequestBody.capacity
                 #bookingType             = $RequestBody.bookingType
                 #audioDeviceName         = $RequestBody.audioDeviceName
                 #videoDeviceName         = $RequestBody.videoDeviceName
@@ -52,7 +53,7 @@ Function Invoke-AddRoom {
                 #    countryOrRegion     = $RequestBody.address.countryOrRegion
                 #    postalCode          = $RequestBody.address.postalCode
                 #}
-            }
+            #}
         }
         $GraphRequest = New-GraphPostRequest @params
 
