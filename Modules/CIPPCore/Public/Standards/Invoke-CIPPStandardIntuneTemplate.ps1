@@ -24,7 +24,8 @@ function Invoke-CIPPStandardIntuneTemplate {
                         $TemplateType = ($RawJSON | ConvertFrom-Json).'@odata.type' -replace '#microsoft.graph.', ''
                         $TemplateTypeURL = "$($TemplateType)s"
                         $CheckExististing = New-GraphGETRequest -uri "https://graph.microsoft.com/beta/deviceAppManagement/$TemplateTypeURL" -tenantid $tenant
-                        if ($displayname -in $CheckExististing.displayName) {
+                        $PolicyName = ($RawJSON | ConvertFrom-Json).displayName
+                        if ($PolicyName -in $CheckExististing.displayName) {
                             $ExistingID = $CheckExististing | Where-Object -Property displayName -EQ $PolicyName
                             $CreateRequest = New-GraphPOSTRequest -uri "https://graph.microsoft.com/beta/deviceAppManagement/$TemplateTypeURL/$($ExistingID.Id)" -tenantid $tenant -type PATCH -body $RawJSON
                         } else {
@@ -38,8 +39,9 @@ function Invoke-CIPPStandardIntuneTemplate {
                         $JSON = $RawJSON | ConvertFrom-Json | Select-Object * -ExcludeProperty id, createdDateTime, lastModifiedDateTime, version, 'scheduledActionsForRule@odata.context', '@odata.context'
                         $JSON.scheduledActionsForRule = @($JSON.scheduledActionsForRule | Select-Object * -ExcludeProperty 'scheduledActionConfigurations@odata.context')
                         $RawJSON = ConvertTo-Json -InputObject $JSON -Depth 20 -Compress
+                        $PolicyName = ($RawJSON | ConvertFrom-Json).displayName
                         Write-Host $RawJSON
-                        if ($displayname -in $CheckExististing.displayName) {
+                        if ($PolicyName -in $CheckExististing.displayName) {
                             $ExistingID = $CheckExististing | Where-Object -Property displayName -EQ $PolicyName
                             $CreateRequest = New-GraphPOSTRequest -uri "https://graph.microsoft.com/beta/deviceManagement/$TemplateTypeURL/$($ExistingID.Id)" -tenantid $tenant -type PATCH -body $RawJSON
                             Write-LogMessage -user $request.headers.'x-ms-client-principal' -API $APINAME -tenant $($Tenant) -message "Updated policy $($PolicyName) to template defaults" -Sev 'info'
@@ -52,7 +54,8 @@ function Invoke-CIPPStandardIntuneTemplate {
                         $TemplateTypeURL = 'groupPolicyConfigurations'
                         $CreateBody = '{"description":"' + $description + '","displayName":"' + $displayname + '","roleScopeTagIds":["0"]}'
                         $CheckExististing = New-GraphGETRequest -uri "https://graph.microsoft.com/beta/deviceManagement/$TemplateTypeURL" -tenantid $tenant
-                        if ($displayname -in $CheckExististing.displayName) {
+                        $PolicyName = ($RawJSON | ConvertFrom-Json).displayName
+                        if ($PolicyName -in $CheckExististing.displayName) {
                             $ExistingID = $CheckExististing | Where-Object -Property displayName -EQ $displayname
                             $ExistingData = New-GraphGETRequest -uri "https://graph.microsoft.com/beta/deviceManagement/$TemplateTypeURL('$($existingId.id)')/definitionValues" -tenantid $tenant
                             $DeleteJson = $RawJSON | ConvertFrom-Json -Depth 10
@@ -116,7 +119,7 @@ function Invoke-CIPPStandardIntuneTemplate {
                 if ($Settings.AssignTo) {
                     Write-Host "Assigning Policy to $($Settings.AssignTo) the create ID is $($CreateRequest)"
                     if ($Settings.AssignTo -eq 'customGroup') { $Settings.AssignTo = $Settings.customGroup }
-                    if ($ExistingID) {
+                    if ($ExistingID.id) {
                         Set-CIPPAssignedPolicy -PolicyId $ExistingID.id -TenantFilter $tenant -GroupName $Settings.AssignTo -Type $TemplateTypeURL
                         Write-LogMessage -API 'Standards' -tenant $tenant -message "Successfully updated Intune Template $PolicyName policy for $($Tenant)" -sev 'Info'
                     } else {
